@@ -23,6 +23,10 @@ function App() {
     },
   };
 
+
+  const [products, setProducts] = useState<IProduct[]>(productList);
+  const [product, setProduct] = useState<IProduct>(defaultProductObj);
+  const [tempColor, setTempColor] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState({
     description: "",
@@ -30,9 +34,8 @@ function App() {
     price: "",
     title: "",
   });
-  const [product, setProduct] = useState<IProduct>(defaultProductObj);
 
-  // handlers
+  // -------------------handlers------------------------//
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +55,7 @@ function App() {
     close();
   };
 
-  const onSumbitHandler = (event: FormEvent<HTMLFormElement>): void => {
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>): void => {
     const { title, description, price, imageURL } = product;
     event.preventDefault();
     const errors = productValidation({
@@ -61,7 +64,6 @@ function App() {
       price,
       imageURL,
     });
-    // console.log(errors);
     const hasError =
       Object.values(errors).some((value) => value === "") &&
       Object.values(errors).every((value) => value === "");
@@ -69,11 +71,14 @@ function App() {
     setError(errors);
     if (!hasError) return;
 
-    console.log(product);
+    setProducts((prev)=> [{...product, colors: tempColor}, ...prev])
+    setProduct(defaultProductObj);
+    setTempColor([])
+    close()
   };
 
-  // render
-  const renderProductList = productList.map((product) => (
+  // -----------------------render------------------//
+  const renderProductList = products.map((product) => (
     <PoductCard key={product.id} product={product} />
   ));
 
@@ -96,7 +101,19 @@ function App() {
     </div>
   ));
 
-  const renderCirculeColor = colors.map((c) => <CirculeColor key={c} color={c} />);
+  const renderCirculeColor = colors.map((color) => (
+    <CirculeColor
+      key={color}
+      color={color}
+      onClick={() => {
+        if(tempColor.includes(color)){
+          setTempColor(prev=> prev.filter(item => item !== color))
+          return
+        }
+        setTempColor((prev) => [...prev, color])
+      }}
+    />
+  ));
 
   return (
     <main className="container mx-auto">
@@ -113,9 +130,19 @@ function App() {
         {renderProductList}
       </div>
       <Modal close={close} isOpen={isOpen} title={"keke"}>
-        <form className="flex flex-col space-y-3" onSubmit={onSumbitHandler}>
+        <form className="flex flex-col space-y-3" onSubmit={onSubmitHandler}>
           {renderFormInputList}
           <div className="flex my-2 flex-wrap">{renderCirculeColor}</div>
+          <div className="flex my-2 flex-wrap">
+            {tempColor.map((color) => (
+              <span
+                className="p-1 mb-1 text-xs text-white rounded-md mr-1"
+                style={{ backgroundColor: color }}
+              >
+                {color}
+              </span>
+            ))}
+          </div>
 
           <div className="flex space-x-3">
             <Button className=" bg-indigo-500 hover:bg-indigo-800">
