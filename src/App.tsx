@@ -6,10 +6,10 @@ import Modal from "./components/ui/Modal";
 import { formInputList, productList } from "./data";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { IProduct } from "./interfaces/indes";
+import { productValidation } from "./validatoin";
 
 function App() {
   const defaultProductObj = {
-    id: "",
     description: "",
     imageURL: "",
     price: "",
@@ -37,7 +37,8 @@ function App() {
 
   const onSumbitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    console.log(product);
+    const errors = productValidation({title: product.title, description: product.description, price: product.price, imageURL: product.imageURL});
+    console.log(errors);
   };
 
   const closeHandler = (): void => {
