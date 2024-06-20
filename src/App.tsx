@@ -3,10 +3,12 @@ import PoductCard from "./components/PoductCard";
 import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
-import { formInputList, productList } from "./data";
+import { colors, formInputList, productList } from "./data";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { IProduct } from "./interfaces/indes";
 import { productValidation } from "./validatoin";
+import ErrorMsg from "./components/ui/ErrorMsg";
+import CirculeColor from "./components/CirculeColor";
 
 function App() {
   const defaultProductObj = {
@@ -22,6 +24,12 @@ function App() {
   };
 
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState({
+    description: "",
+    imageURL: "",
+    price: "",
+    title: "",
+  });
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
 
   // handlers
@@ -33,17 +41,35 @@ function App() {
       ...product,
       [name]: value,
     });
-  };
-
-  const onSumbitHandler = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    const errors = productValidation({title: product.title, description: product.description, price: product.price, imageURL: product.imageURL});
-    console.log(errors);
+    setError({
+      ...error,
+      [name]: "",
+    });
   };
 
   const closeHandler = (): void => {
     setProduct(defaultProductObj);
     close();
+  };
+
+  const onSumbitHandler = (event: FormEvent<HTMLFormElement>): void => {
+    const { title, description, price, imageURL } = product;
+    event.preventDefault();
+    const errors = productValidation({
+      title,
+      description,
+      price,
+      imageURL,
+    });
+    // console.log(errors);
+    const hasError =
+      Object.values(errors).some((value) => value === "") &&
+      Object.values(errors).every((value) => value === "");
+
+    setError(errors);
+    if (!hasError) return;
+
+    console.log(product);
   };
 
   // render
@@ -66,17 +92,30 @@ function App() {
         value={product[input.name]}
         onChange={onChangeHandler}
       />
+      <ErrorMsg msg={error[input.name]} />
     </div>
   ));
 
+  const renderCirculeColor = colors.map((c) => <CirculeColor key={c} color={c} />);
+
   return (
     <main className="container mx-auto">
+      <div className="flex justify-center">
+        <Button
+          onClick={open}
+          className=" rounded-md bg-black/20 py-2 px-4 text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
+          width="w-fit"
+        >
+          Add Product
+        </Button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 p-2">
         {renderProductList}
       </div>
       <Modal close={close} isOpen={isOpen} title={"keke"}>
         <form className="flex flex-col space-y-3" onSubmit={onSumbitHandler}>
           {renderFormInputList}
+          <div className="flex my-2 flex-wrap">{renderCirculeColor}</div>
 
           <div className="flex space-x-3">
             <Button className=" bg-indigo-500 hover:bg-indigo-800">
@@ -91,12 +130,6 @@ function App() {
           </div>
         </form>
       </Modal>
-      <Button
-        onClick={open}
-        className="rounded-md bg-black/20 py-2 px-4 text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
-      >
-        Open dialog
-      </Button>
     </main>
   );
 }

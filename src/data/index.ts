@@ -66,3 +66,20 @@ export const formInputList: IformInput[] =[
         type: 'number',
     },
 ]
+
+export const colors: string[] = [
+    '#a85025',
+    '#2563eb',
+    '#84d2c5',
+    '#13005a',
+    '#a31acb',
+    '#ff6e31',
+    '#3c2a21',
+    '#6c4ab6',
+    '#cb1c8d',
+    '#000000',
+    '#645c00',
+    '#1f8a70',
+    '#820000',
+    '#ff0032',
+]
