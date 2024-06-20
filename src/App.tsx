@@ -4,10 +4,47 @@ import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import Modal from "./components/ui/Modal";
 import { formInputList, productList } from "./data";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { IProduct } from "./interfaces/indes";
 
 function App() {
+  const defaultProductObj = {
+    id: "",
+    description: "",
+    imageURL: "",
+    price: "",
+    title: "",
+    colors: [],
+    category: {
+      name: "",
+      imageURL: "",
+    },
+  };
+
   const [isOpen, setIsOpen] = useState(false);
+  const [product, setProduct] = useState<IProduct>(defaultProductObj);
+
+  // handlers
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setProduct({
+      ...product,
+      [name]: value,
+    });
+  };
+
+  const onSumbitHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    console.log(product);
+  };
+
+  const closeHandler = (): void => {
+    setProduct(defaultProductObj);
+    close();
+  };
+
   // render
   const renderProductList = productList.map((product) => (
     <PoductCard key={product.id} product={product} />
@@ -21,33 +58,37 @@ function App() {
       >
         {input.label}
       </label>
-      <Input id={input.id} name={input.name} type={input.type} />
+      <Input
+        id={input.id}
+        name={input.name}
+        type={input.type}
+        value={product[input.name]}
+        onChange={onChangeHandler}
+      />
     </div>
   ));
 
-  function open() {
-    setIsOpen(true);
-  }
-
-  function close() {
-    setIsOpen(false);
-  }
-
   return (
-    <div className="container mx-auto">
+    <main className="container mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 p-2">
         {renderProductList}
       </div>
       <Modal close={close} isOpen={isOpen} title={"keke"}>
-        <div className="flex flex-col space-y-3">
+        <form className="flex flex-col space-y-3" onSubmit={onSumbitHandler}>
           {renderFormInputList}
+
           <div className="flex space-x-3">
-            <Button className=" bg-indigo-500 hover:bg-indigo-800">Submit</Button>
-            <Button onClick={close} className=" bg-gray-500 hover:bg-gray-800">
+            <Button className=" bg-indigo-500 hover:bg-indigo-800">
+              Submit
+            </Button>
+            <Button
+              onClick={closeHandler}
+              className=" bg-gray-500 hover:bg-gray-800"
+            >
               Cancel
             </Button>
           </div>
-        </div>
+        </form>
       </Modal>
       <Button
         onClick={open}
@@ -55,7 +96,7 @@ function App() {
       >
         Open dialog
       </Button>
-    </div>
+    </main>
   );
 }
 
