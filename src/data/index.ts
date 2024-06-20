@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { IProduct } from '../interfaces/indes';
+import { IformInput, IProduct } from '../interfaces/indes';
 
 
 export const productList: IProduct[] =[
@@ -37,5 +37,32 @@ export const productList: IProduct[] =[
         description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea ipsam labore explicabo exercitationem odit? Quas praesentium aperiam necessitatibus corporis excepturi!',
         imageURL: 'https://images.pexels.com/photos/951318/pexels-photo-951318.jpeg',
         price: '13000'
+    },
+]
+
+export const formInputList: IformInput[] =[
+    {
+        id: 'title',
+        name: 'title',
+        label: 'Product Title',
+        type: 'text',
+    },
+    {
+        id: 'description',
+        name: 'description',
+        label: 'Product description',
+        type: 'text',
+    },
+    {
+        id: 'image',
+        name: 'imageURL',
+        label: 'Product Image URL',
+        type: 'text',
+    },
+    {
+        id: 'price',
+        name: 'price',
+        label: 'Product Price',
+        type: 'number',
     },
 ]
