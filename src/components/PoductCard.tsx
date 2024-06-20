@@ -1,19 +1,25 @@
+import { IProduct } from "../interfaces/indes";
+import { txtSlicer } from "../utils/functions";
 import Image from "./Image";
 import Button from "./ui/Button";
 
-export default function PoductCard() {
+interface IProps{
+    product: IProduct
+}
+
+export default function PoductCard({product}:IProps) {
+    const {title, imageURL, description, price} = product
+
   return (
-    <div className="border border-slate-300 rounded-md flex flex-col p-2">
+    <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 border border-slate-300 rounded-md flex flex-col p-2">
       <Image
-        imageURL={`https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`}
-        alt={"prduct title"}
-        className={""}
+        imageURL={imageURL}
+        alt={title}
+        className={"h-2/5"}
       />
-      <h3>Prduct title</h3>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea ipsam
-        labore explicabo exercitationem odit? Quas praesentium aperiam
-        necessitatibus corporis excepturi!
+      <h3 className="text-xl pt-2 text-slate-700">{txtSlicer(title, 25)}</h3>
+      <p className="text-sm py-2 text-gray-600">
+        {txtSlicer(description,100)}
       </p>
 
       <div className="flex space-x-2 my-2">
@@ -23,7 +29,7 @@ export default function PoductCard() {
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="text-teal-600">500$</p>
+        <p className="text-teal-600">{`$${price}`}</p>
         <Image
           imageURL={
             "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
