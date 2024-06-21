@@ -44,10 +44,7 @@ const Modal = ({ isOpen, close, title, children }: IProps) => {
                       {title}
                     </DialogTitle>
                   )}
-                  <p className="mt-2 text-sm/6 text-black/70">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
+                  <p className="mt-2 text-sm/6 text-black/70"></p>
                   <div className="mt-4">{children}</div>
                 </DialogPanel>
               </TransitionChild>

@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { IformInput, IProduct } from "../interfaces/indes";
+import { ICategories, IformInput, IProduct } from "../interfaces/indes";
 
 export const productList: IProduct[] = [
   {
@@ -18,6 +18,10 @@ export const productList: IProduct[] = [
       "#820000",
       "#ff0032",
     ],
+    category: {
+      name: 'Cars',
+      imageURL: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    }
   },
   {
     id: uuid(),
@@ -33,6 +37,10 @@ export const productList: IProduct[] = [
       "#820000",
       "#ff0032",
     ],
+    category: {
+      name: 'Clothes',
+      imageURL: 'https://images.unsplash.com/photo-1604176354204-9268737828e4?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  }
   },
   {
     id: uuid(),
@@ -49,6 +57,10 @@ export const productList: IProduct[] = [
       "#13005a",
 
     ],
+    category: {
+      name: 'Cars',
+      imageURL: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    }
   },
   {
     id: uuid(),
@@ -67,6 +79,10 @@ export const productList: IProduct[] = [
       "#645c00",
       
     ],
+    category: {
+      name: 'Watches',
+      imageURL: 'https://images.unsplash.com/photo-1585123334904-845d60e97b29?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  }
   },
   {
     id: uuid(),
@@ -80,6 +96,10 @@ export const productList: IProduct[] = [
       "#820000",
       "#ff0032",
     ],
+    category: {
+      name: 'Sockes',
+      imageURL: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+   }
   },
 ];
 
@@ -126,3 +146,31 @@ export const colors: string[] = [
   "#820000",
   "#ff0032",
 ];
+
+export const categories: ICategories[] =[
+    {
+        id: uuid(),
+        name: 'Cars',
+        imageURL: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+        id: uuid(),
+        name: 'Clothes',
+        imageURL: 'https://images.unsplash.com/photo-1604176354204-9268737828e4?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+        id: uuid(),
+        name: 'Shoes',
+        imageURL: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+        id: uuid(),
+        name: 'Watches',
+        imageURL: 'https://images.unsplash.com/photo-1585123334904-845d60e97b29?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    {
+        id: uuid(),
+        name: 'Sockes',
+        imageURL: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+]
