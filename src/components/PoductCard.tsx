@@ -8,9 +8,11 @@ interface IProps {
   product: IProduct;
   setProductToEdit: (product: IProduct) => void;
   openEdit: () => void;
+  setProductToEditIdx: (value: number)=> void;
+  idx: number
 }
 
-export default function PoductCard({ product, setProductToEdit, openEdit }: IProps) {
+export default function PoductCard({ product, setProductToEdit, openEdit, setProductToEditIdx, idx }: IProps) {
   const { title, imageURL, description, price, colors, category } = product;
 
   const renderCirculeColor = colors?.map((color) => (
@@ -20,6 +22,7 @@ export default function PoductCard({ product, setProductToEdit, openEdit }: IPro
   const editHandler = () => {
     setProductToEdit(product);
     openEdit()
+    setProductToEditIdx(idx)
   };
 
   return (

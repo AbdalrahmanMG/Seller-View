@@ -4,7 +4,7 @@ import { ICategories } from '../../interfaces/indes'
 import { categories } from '../../data'
 
 interface IProps{
-    selected: ICategories,
+    selected: {name: string, imageURL: string},
     setSelected: (category: ICategories)=> void
 }
 
