@@ -8,11 +8,12 @@ interface IProps {
   product: IProduct;
   setProductToEdit: (product: IProduct) => void;
   openEdit: () => void;
+  openRemove: () => void;
   setProductToEditIdx: (value: number)=> void;
-  idx: number
+  idx: number;
 }
 
-export default function PoductCard({ product, setProductToEdit, openEdit, setProductToEditIdx, idx }: IProps) {
+export default function PoductCard({ product, setProductToEdit, openEdit, setProductToEditIdx, idx, openRemove }: IProps) {
   const { title, imageURL, description, price, colors, category } = product;
 
   const renderCirculeColor = colors?.map((color) => (
@@ -24,6 +25,12 @@ export default function PoductCard({ product, setProductToEdit, openEdit, setPro
     openEdit()
     setProductToEditIdx(idx)
   };
+  
+  const onRemove =()=>{
+    setProductToEdit(product);
+    openRemove()
+  }
+
 
   return (
     <div className="max-w-sm md:max-w-lg mx-auto md:mx-0 border border-slate-300 rounded-md flex flex-col p-2">
@@ -46,10 +53,10 @@ export default function PoductCard({ product, setProductToEdit, openEdit, setPro
         </div>
 
         <div className=" flex space-x-1 mt-4">
-          <Button className="bg-blue-700" onClick={editHandler}>
-            edit
+          <Button className="bg-blue-700 text-white" onClick={editHandler}>
+            Edit
           </Button>
-          <Button className="bg-red-700 ">delete</Button>
+          <Button className="bg-red-700 text-white" onClick={onRemove}>Delete</Button>
         </div>
       </div>
     </div>

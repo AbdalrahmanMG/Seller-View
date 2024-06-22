@@ -41,16 +41,18 @@ function App() {
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [tempColor, setTempColor] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isRemoveOpen, setIsRemoveOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [error, setError] = useState(errorDefaultValues);
   const [selected, setSelected] = useState(categories[3]);
-  console.log(productToEdit);
 
   // -------------------handlers------------------------//
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
   const openEdit = () => setIsEditOpen(true);
   const closeEdit = () => setIsEditOpen(false);
+  const openRemove = () => setIsRemoveOpen(true);
+  const closeRemove = () => setIsRemoveOpen(false);
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setProduct({
@@ -75,12 +77,17 @@ function App() {
     });
   };
 
+  
   const closeHandler = (): void => {
     setProductToEdit(defaultProductObj);
     setError(errorDefaultValues);
     close();
   };
 
+  const closeRemoveHandler = (): void => {
+    setProductToEdit(defaultProductObj);
+    closeRemove();
+  };
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>): void => {
     const { title, description, price, imageURL } = product;
 
@@ -125,11 +132,13 @@ function App() {
       Object.values(errors).every((value) => value === "");
 
     setError(errors);
-    console.log(errors);
     if (!hasError) return;
 
     const updatedProducts = [...products];
-    updatedProducts[productToEditIdx] = {...productToEdit, colors: tempColor.concat(productToEdit.colors)};
+    updatedProducts[productToEditIdx] = {
+      ...productToEdit,
+      colors: tempColor.concat(productToEdit.colors),
+    };
     setProducts(updatedProducts);
 
     setProductToEdit(defaultProductObj);
@@ -137,6 +146,12 @@ function App() {
     closeEdit();
   };
 
+  const removeHandler =(event: FormEvent<HTMLFormElement>)=>{
+    event.preventDefault()
+    const filtered = products.filter(product=> product.id !== productToEdit.id)
+    setProducts(filtered)
+    closeRemoveHandler() 
+  }
   // -----------------------render------------------//
   const renderProductList = products.map((product, idx) => (
     <PoductCard
@@ -146,6 +161,7 @@ function App() {
       openEdit={openEdit}
       setProductToEditIdx={setProductToEditIdx}
       idx={idx}
+      openRemove={openRemove}
     />
   ));
 
@@ -259,7 +275,12 @@ function App() {
           {renderProductToEdit("imageURL", "imageURL", "imageURL")}
           {renderProductToEdit("price", "price", "price")}
 
-          <Select selected={productToEdit.category} setSelected={(value)=>setProductToEdit({...productToEdit, category: value})} />
+          <Select
+            selected={productToEdit.category}
+            setSelected={(value) =>
+              setProductToEdit({ ...productToEdit, category: value })
+            }
+          />
 
           <div className="flex my-2 flex-wrap">{renderCirculeColor}</div>
           <div className="flex my-2 flex-wrap">
@@ -280,6 +301,29 @@ function App() {
             </Button>
             <Button
               onClick={closeEdit}
+              className="bg-white hover:bg-gray-500 hover:text-white text-black"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal
+        close={closeRemove}
+        isOpen={isRemoveOpen}
+        title={"Remove a product"}
+      >
+        <form
+          className="flex flex-col space-y-3"
+          onSubmit={removeHandler}
+        >
+          <div className="flex space-x-3">
+            <Button className=" bg-indigo-700 text-white hover:bg-indigo-800">
+              Submit
+            </Button>
+            <Button
+              onClick={closeRemoveHandler}
               className="bg-white hover:bg-gray-500 hover:text-white text-black"
             >
               Cancel
